@@ -1,0 +1,17 @@
+
+server:
+  port: 8081
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+    
+    
+spring:
+  application:
+    name: payment-service
+  lifecycle:
+    timeout-per-shutdown-phase: 15s
+
+config:
+  invoice-service-uri: "http://localhost:8080"

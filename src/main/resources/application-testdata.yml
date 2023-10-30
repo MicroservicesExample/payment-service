@@ -1,0 +1,29 @@
+logging:
+  level:
+    org.springframework: debug
+
+#############Persistence #####################
+spring:
+  r2dbc:
+    driver-class-name: org.h2.Driver
+    url: r2dbc:h2:file:///~/paymentService
+    username: sa
+    password: sa
+    pool:
+      max-create-connection-time: 2s
+      initial-size: 1
+      max-size: 1
+
+  sql:
+   init:
+     mode: always
+     
+# flayway with jdbc and application r2dbc datasource(above) did not work together so commenting flyway, so used schema.sql instead in local env.
+# flyway does not support r2dbc so configuring with jdbc driver which should be ok as its executed on the startup only
+#  flyway:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:~/paymentService
+#    username: user
+#    password: password
+
+
