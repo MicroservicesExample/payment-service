@@ -1,7 +1,8 @@
+#############Persistence #####################
 spring:
   r2dbc:
     driver-class-name: org.postgresql.Driver
-    url: r2dbc:postgresql://localhost:5432/invoiceService
+    url: r2dbc:postgresql://localhost:5432/paymentService
     username: postgres
     password: postgres
     pool:
@@ -10,6 +11,6 @@ spring:
       max-size: 10
 
 flyway:
-  url: jdbc:postgresql://localhost:5432/invoiceService
+  url: jdbc:postgresql://localhost:5432/paymentService
   username: ${spring.r2dbc.username}
   password: ${spring.r2dbc.password}

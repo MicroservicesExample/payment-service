@@ -1,10 +1,11 @@
-
+### Server configuaration ####
 server:
   port: 8081
   shutdown: graceful
   netty:
     connection-timeout: 2s
     idle-timeout: 15s
+
     
     
 spring:
@@ -12,6 +13,24 @@ spring:
     name: payment-service
   lifecycle:
     timeout-per-shutdown-phase: 15s
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: "http://localhost:9001"
+      request-connect-timeout: 5000
+      request-read-timeout: 5000
+      fail-fast: false
+      retry:
+        max-attempts: 5
+        initial-interval: 1000
+        max-interval: 2000
+        multiplier: 1.1
+
+#enable refresh end point of the actuator, exposes http /actuator/refresh end point
+management:
+  endpoints:
+    web.exposure.include: refresh
 
 config:
   invoice-service-uri: "http://localhost:8080"
