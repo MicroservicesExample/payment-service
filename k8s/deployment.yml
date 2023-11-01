@@ -28,6 +28,8 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
+            - name: SPRING_CLOUD_CONFIG_URI
+              value: http://config-service:9001
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://my-postgres:5432/PaymentService
             - name: SPRING_PROFILES_ACTIVE
