@@ -36,6 +36,8 @@ public record Payment(
 	
 	PaymentStatus status,
 	
+	String userNotified,
+	
 	@Version // concurreny handling
 	int version,
 	
@@ -46,7 +48,23 @@ public record Payment(
 	LocalDateTime lastModifiedDate)
 	{
 		public static Payment of(Long billRefNum, String userId, Integer billAmount, Integer paymentAmount, PaymentStatus status) {
-			return new Payment(null, billRefNum, userId, billAmount, paymentAmount, status, 0, null, null);
+			return new Payment(null, billRefNum, userId, billAmount, paymentAmount, status, "N", 0, null, null);
+		}
+		
+		public static Payment notifedPayment(Payment payment) {
+			return new Payment(
+					payment.id(),
+					payment.billRefNumer(),
+					payment.userId(),
+					payment.billAmount(),
+					payment.paymentAmount(),
+					PaymentStatus.SUCCESS,
+					"Y",
+					payment.version(),
+					payment.createdDate(),
+					payment.lastModifiedDate()
+					
+					);
 		}
 
 	}

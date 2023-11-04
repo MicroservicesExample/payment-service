@@ -46,6 +46,8 @@ class PaymentJsonTests {
 			.isEqualTo(payment.paymentAmount());
 		assertThat(jsonContent).extractingJsonPathStringValue("@.status")
 			.isEqualTo(payment.status().toString());
+		assertThat(jsonContent).extractingJsonPathStringValue("@.userNotified")
+		.isEqualTo("N");
 		assertThat(jsonContent).extractingJsonPathNumberValue("@.version")
 		.isEqualTo(0);
 		assertThat(jsonContent).extractingJsonPathValue("@.created_date")
@@ -66,6 +68,7 @@ class PaymentJsonTests {
 			  "billAmount": 6500,
 			  "paymentAmount": 500,
 			  "status": "ACCEPTED",
+			  "userNotified": "N",
 			  "version": 1,
 			  "createdDate": "2023-10-30T12:33:39",
 			  "lastModifiedDate": "2023-10-30T12:33:39"
@@ -78,7 +81,7 @@ class PaymentJsonTests {
 		
 		assertThat(json.parse(jsonContent))
 		.usingRecursiveComparison()
-		.isEqualTo(new Payment(1L, 45L, "test@gamil.com", 6500, 500, PaymentStatus.ACCEPTED, 1, ldt, ldt));
+		.isEqualTo(new Payment(1L, 45L, "test@gamil.com", 6500, 500, PaymentStatus.ACCEPTED, "N", 1, ldt, ldt));
 	}
 
 }

@@ -1,4 +1,4 @@
-### Server configuaration ####
+### Server configuration ###
 server:
   port: 8081
   shutdown: graceful
@@ -6,8 +6,6 @@ server:
     connection-timeout: 2s
     idle-timeout: 15s
 
-    
-    
 spring:
   application:
     name: payment-service
@@ -26,8 +24,25 @@ spring:
         initial-interval: 1000
         max-interval: 2000
         multiplier: 1.1
+    function:
+      definition: userPaymentNotified
+    stream:
+      bindings:
+        userPaymentNotified-in-0: # userPaymentNotified function will be bound to the notification-success destination
+          destination: notification-success
+          group: ${spring.application.name} # consumer group
+        paymentAccepted-out-0: # BridgeStream will bind it to the notify-user destination, see PaymentService.makePayment()
+          destination: notify-user
+      defaultBinder: rabbit
+      
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: rabbit
+  password: rabbit
+  connection-timeout: 5s
 
-#enable refresh end point of the actuator, exposes http /actuator/refresh end point
+# Enable refresh endpoint of the actuator, exposes HTTP /actuator/refresh endpoint
 management:
   endpoints:
     web.exposure.include: refresh

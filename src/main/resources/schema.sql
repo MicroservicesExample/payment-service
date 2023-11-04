@@ -5,6 +5,7 @@ CREATE TABLE if not exists payment(
 	bill_amount integer NOT NULL,
 	payment_amount integer NOT NULL,
 	status varchar(25),
+	user_notified varchar(1),
 	created_date timestamp NOT NULL,
 	last_modified_date timestamp NOT NULL,
 	version integer NOT NULL	

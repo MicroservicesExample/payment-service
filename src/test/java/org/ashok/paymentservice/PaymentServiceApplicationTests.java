@@ -1,7 +1,14 @@
 package org.ashok.paymentservice;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
+
+import java.io.IOException;
+import java.time.LocalDate;
+
 import org.ashok.paymentservice.domain.Payment;
 import org.ashok.paymentservice.domain.PaymentStatus;
+import org.ashok.paymentservice.event.PaymentMessage;
 import org.ashok.paymentservice.invoice.Invoice;
 import org.ashok.paymentservice.invoice.InvoiceClient;
 import org.ashok.paymentservice.web.PaymentRequest;
@@ -9,21 +16,22 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.stream.binder.test.OutputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import reactor.core.publisher.Mono;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-
-import java.time.LocalDate;
 /**
  * @SpringBootTest: Will load entire application context and will start the servlet container on random port
  * @author Ashok Mane
  *
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Import(TestChannelBinderConfiguration.class)
 @ActiveProfiles("testdata")
 class PaymentServiceApplicationTests {
 
@@ -33,7 +41,11 @@ class PaymentServiceApplicationTests {
 	@MockBean
 	InvoiceClient invoiceClient;
 	
-	
+	@Autowired
+	private ObjectMapper objectMapper;
+
+	@Autowired
+	private OutputDestination output; // mapped to paymentAccepted-out-0
 	
 	@Test
 	void whenGetPaymentsThenReturn() {
@@ -60,7 +72,7 @@ class PaymentServiceApplicationTests {
 		//2. get the payment
 		webTestClient
 			.get()
-			.uri("/payments/" + request.billRefNumber())
+			.uri("/payments/" + expectedPayment.id())
 			.exchange()
 			.expectStatus().isOk()
 			.expectBodyList(Payment.class).value( payments -> {
@@ -72,7 +84,7 @@ class PaymentServiceApplicationTests {
 	}
 	
 	@Test
-	void whenPostPaymentsAndInvoiceExistsThenPaymentAccepted() {
+	void whenPostPaymentsAndInvoiceExistsThenPaymentAccepted() throws IOException {
 		PaymentRequest request = new PaymentRequest(1212121L, 200);
 		
 		Invoice invoice = new Invoice(request.billRefNumber(), "test@gmail.com", request.amount(), LocalDate.now());
@@ -93,7 +105,9 @@ class PaymentServiceApplicationTests {
 		assertThat(expectedPayment).isNotNull();
 		assertThat(expectedPayment.billRefNumer()).isEqualTo(request.billRefNumber());
 		assertThat(expectedPayment.status()).isEqualTo(PaymentStatus.ACCEPTED);
-		
+		//check that it put the message on notify-user channel/exchange
+		assertThat(objectMapper.readValue(output.receive().getPayload(), PaymentMessage.class))
+		.isEqualTo(new PaymentMessage(expectedPayment.id(), expectedPayment.billRefNumer(), expectedPayment.paymentAmount()));
 	}
 	
 	@Test

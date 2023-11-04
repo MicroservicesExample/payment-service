@@ -1,0 +1,1 @@
+ALTER TABLE payment ADD COLUMN user_notified varchar(1);
