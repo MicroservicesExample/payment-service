@@ -24,6 +24,11 @@
 		<registry.url />
 	</properties>
 	<dependencies>
+		<!-- rabbitmq binder -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
@@ -80,11 +85,6 @@
 	      <groupId>org.flywaydb</groupId>
 	      <artifactId>flyway-core</artifactId>
 	    </dependency>
-	    <!-- rabbitmq binder -->
-	    <dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-		</dependency>
 		<!-- we will use the TestChannelBinder, an in-memory binder provided by the below dependency -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
