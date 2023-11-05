@@ -33,7 +33,7 @@ spring:
           group: ${spring.application.name} # consumer group
         paymentAccepted-out-0: # BridgeStream will bind it to the notify-user destination, see PaymentService.makePayment()
           destination: notify-user
-        defaultBinder: rabbit
+      defaultBinder: rabbit
       
 rabbitmq:
   host: localhost
