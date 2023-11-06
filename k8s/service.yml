@@ -10,5 +10,5 @@ spec:
     app: payment-service
   ports:
     - protocol: TCP
-      port: 8081
-      targetPort: 8081
+      port: 80
+      targetPort: 8082
