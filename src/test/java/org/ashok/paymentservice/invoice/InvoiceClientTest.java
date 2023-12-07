@@ -51,7 +51,7 @@ class InvoiceClientTest {
 									}
 									""".formatted(invoiceId));
 		mockWebServer.enqueue(mockResponse);
-		Mono<Invoice> invoice = invoiceClient.getInvoiceById(invoiceId);
+		Mono<Invoice> invoice = invoiceClient.getInvoiceById(invoiceId, null);
 		
 		StepVerifier.create(invoice)
 			.expectNextMatches(

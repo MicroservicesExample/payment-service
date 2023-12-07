@@ -54,6 +54,10 @@ class PaymentJsonTests {
 				.isNull();
 		assertThat(jsonContent).extractingJsonPathValue("@.last_modified_date")
 				.isNull();
+		assertThat(jsonContent).extractingJsonPathValue("@.created_by")
+			.isNull();
+		assertThat(jsonContent).extractingJsonPathValue("@.last_modified_by")
+			.isNull();
 		
 	}
 	
@@ -70,6 +74,8 @@ class PaymentJsonTests {
 			  "status": "ACCEPTED",
 			  "userNotified": "N",
 			  "version": 1,
+			  "createdBy": "test",
+			  "lastModifiedBy": "test",
 			  "createdDate": "2023-10-30T12:33:39",
 			  "lastModifiedDate": "2023-10-30T12:33:39"
 			}
@@ -81,7 +87,7 @@ class PaymentJsonTests {
 		
 		assertThat(json.parse(jsonContent))
 		.usingRecursiveComparison()
-		.isEqualTo(new Payment(1L, 45L, "test@gamil.com", 6500, 500, PaymentStatus.ACCEPTED, "N", 1, ldt, ldt));
+		.isEqualTo(new Payment(1L, 45L, "test@gamil.com", 6500, 500, PaymentStatus.ACCEPTED, "N", 1, "test", "test", ldt, ldt));
 	}
 
 }

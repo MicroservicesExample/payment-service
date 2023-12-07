@@ -20,10 +20,11 @@ public class InvoiceClient {
 		this.webClient = webClient;
 	}
 	
-	public Mono<Invoice> getInvoiceById(Long id){
+	public Mono<Invoice> getInvoiceById(Long id, String authorizationHeader){
 		return webClient
 				   .get()
 				   .uri(INVOICE_ROOT_API + id)
+				   .header("Authorization", authorizationHeader)
 				   .retrieve()
 				   .bodyToMono(Invoice.class)
 				   .timeout(Duration.ofSeconds(3), Mono.empty()) //request times out in 3s and returns empty mono as fallback which will reject the payment

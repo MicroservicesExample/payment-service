@@ -43,9 +43,9 @@ public class PaymentService {
 	}
 	
 	@Transactional
-	public Mono<Payment> makePayment(Long billRefNum, Integer paymentAmount) {
+	public Mono<Payment> makePayment(Long billRefNum, Integer paymentAmount, String authorizationHeader) {
 		
-		return invoiceClient.getInvoiceById(billRefNum)
+		return invoiceClient.getInvoiceById(billRefNum, authorizationHeader)
 							.map(invoice -> buildAcceptedPayment(invoice, paymentAmount))
 							.defaultIfEmpty(
 											buildRejectedPayment(billRefNum, paymentAmount)
