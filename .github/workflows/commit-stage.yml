@@ -38,7 +38,7 @@ jobs:
       - name: Build, Unit and Integration tests
         run: |
             chmod +x mvnw
-            ./mvnw install -Dspring.profiles.active=testdata
+            ./mvnw install
       - name: Validate K8S manifests
         uses: stefanprodan/kube-tools@v1
         with:
