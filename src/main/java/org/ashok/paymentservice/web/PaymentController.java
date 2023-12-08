@@ -56,7 +56,7 @@ public class PaymentController {
 		else {
 			List<String> roles = jwt.getClaimAsStringList("roles");
 			System.out.println("Roles - " + roles);
-			if(roles != null && roles.contains("admin")) {
+			if(roles != null && roles.contains("ADMIN")) {
 				return true;
 			}
 		}
