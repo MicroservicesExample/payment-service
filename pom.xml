@@ -75,6 +75,7 @@
 			<artifactId>r2dbc-h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- this normal postgres driver is required for flyway as it does not comply with r2dbc yet and testcontainers-->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>

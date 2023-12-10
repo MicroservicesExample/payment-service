@@ -57,7 +57,7 @@ private static final DockerImageName AUTH_SERVICE_IMAGE = DockerImageName.parse(
 	
 	@Container
 	 private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14.4")
-	   .withDatabaseName("invoiceService").withUsername("postgres").withPassword("postgres");
+	   .withDatabaseName("paymentservice").withUsername("postgres").withPassword("postgres");
 	 
 	static {
 		postgreSQLContainer.start();
@@ -77,7 +77,7 @@ private static final DockerImageName AUTH_SERVICE_IMAGE = DockerImageName.parse(
 	    		)
 		.withExposedPorts(9000)
 		.withStartupCheckStrategy(
-				new MinimumDurationRunningStartupCheckStrategy(Duration.ofSeconds(5))
+				new MinimumDurationRunningStartupCheckStrategy(Duration.ofSeconds(20))
 			)
 	    
 		.waitingFor(Wait.forHttp("/"));
