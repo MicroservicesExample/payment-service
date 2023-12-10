@@ -44,12 +44,12 @@ spring:
           destination: notify-user
       defaultBinder: rabbit
       
-rabbitmq:
-  host: localhost
-  port: 5672
-  username: rabbit
-  password: rabbit
-  connection-timeout: 5s
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbit
+    password: rabbit
+    connection-timeout: 5s
 
 # Enable refresh endpoint of the actuator, exposes HTTP /actuator/refresh endpoint
 management:

@@ -10,7 +10,7 @@ spring:
       initial-size: 5
       max-size: 10
 
-flyway:
-  url: jdbc:postgresql://localhost:5432/paymentservice
-  username: ${spring.r2dbc.username}
-  password: ${spring.r2dbc.password}
+  flyway:
+    url: jdbc:postgresql://localhost:5432/paymentservice
+    user: ${spring.r2dbc.username}
+    password: ${spring.r2dbc.password}
