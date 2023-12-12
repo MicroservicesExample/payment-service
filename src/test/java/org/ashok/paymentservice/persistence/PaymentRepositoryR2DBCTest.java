@@ -11,6 +11,7 @@ import org.ashok.paymentservice.invoice.Invoice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -26,11 +27,13 @@ import reactor.test.StepVerifier;
 @DataR2dbcTest
 @Import(DataConfig.class)
 @Testcontainers //Activates automatic startup and cleanup of test containers
+@AutoConfigureTestDatabase( replace = AutoConfigureTestDatabase.Replace.NONE)
 class PaymentRepositoryR2DBCTest {
 
 	@Container
 	 private static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14.4")
 	   .withDatabaseName("paymentService").withUsername("postgres").withPassword("postgres");
+	  
 	 
 	static {
 		postgreSQLContainer.start();
