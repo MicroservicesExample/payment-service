@@ -28,11 +28,30 @@ spec:
           env:
             - name: BPL_JVM_THREAD_COUNT
               value: "50"
+            
+            - name: SPRING_R2DBC_URL
+              value: r2dbc:postgresql://my-postgres:5432/paymentservice
+            
+            - name: SPRING_FLYWAY_URL
+              value: jdbc:postgresql://my-postgres:5432/paymentservice
+            
             - name: SPRING_CLOUD_CONFIG_URI
-              value: http://config-service:9001
+              value: http://config-service
+            
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://my-postgres:5432/PaymentService
+            
             - name: CONFIG_INVOICE-SERVICE-URI
               value: http://invoice-service
+            
+            - name: OAUTH2_SERVICE_JWT_ISSUER-URI
+              value: http://auth-service
+            
+            - name: SPRING_RABBITMQ_HOST
+              value: my-rabbitmq
+            
             - name: SPRING_PROFILES_ACTIVE
               value: proddata
+            
+            - name: LOGGING_LEVEL_ORG_SPRINGFRAMEWORK
+              value: debug
